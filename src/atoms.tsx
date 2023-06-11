@@ -10,7 +10,14 @@ export interface IToDo {
   id: number;
   category: Categories;
 }
-
+export interface ISelectCategory {
+  text: string;
+  id: number;
+}
+export const selectCategoryState = atom<ISelectCategory[]>({
+  key: "selectCategory",
+  default: [],
+});
 export const categoryState = atom<Categories>({
   key: "category",
   default: Categories.TO_DO,
@@ -18,7 +25,8 @@ export const categoryState = atom<Categories>({
 
 export const toDoState = atom<IToDo[]>({
   key: "toDo",
-  default: [],
+  //로컬스토리지 저장
+  default: JSON.parse(localStorage.getItem("TODOS")||"[]"),
 });
 
 export const toDoSelector = selector({
@@ -29,3 +37,11 @@ export const toDoSelector = selector({
     return toDos.filter((toDo) => toDo.category === category);
   },
 });
+//주석처리#3
+// export const categorySelector = selector({
+//   key: "categorySelector",
+//   get: ({ get }) => {
+//     const categories = get(selectCategoryState);
+//     return categories
+//   },
+// });
